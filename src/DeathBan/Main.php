@@ -36,8 +36,6 @@ class Main extends PluginBase implements Listener
     {
         $player = $event->getPlayer();
         $this->addBan($player);
-        $player->kick(TextFormat::RED . "You have been Death Banned for 1 Hour.");
-
     }
 
     /**
@@ -59,16 +57,21 @@ class Main extends PluginBase implements Listener
     /**
      * @param Player $player
      */
-    public function addBan(Player $player)
+    public function addBan(Player $player): void
     {
-        $this->deathban->set($player->getName(), 3600);
-        $this->deathban->save();
-
+        if ($player->hasPermission("deathban")){
+            $this->deathban->set($player->getName(), 1800);
+            $this->deathban->save();
+            $player->kick(TextFormat::RED . "You have been Death Banned for 30 minutes.");
+        }else {
+            $this->deathban->set($player->getName(), 3600);
+            $this->deathban->save();
+            $player->kick(TextFormat::RED . "You have been Death Banned for 1 Hour.");
+        }
     }
 
     public function onDisable(): void
     {
         $this->getLogger()->info("DeathBan disabled!");
     }
-
 }
