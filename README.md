@@ -1,2 +1,1 @@
 # DeathBan
-A HCF plugin.
