@@ -59,11 +59,27 @@ class Main extends PluginBase implements Listener
      */
     public function addBan(Player $player): void
     {
-        if ($player->hasPermission("deathban")){
+        if ($player->hasPermission("deathban.30")){
             $this->deathban->set($player->getName(), 1800);
             $this->deathban->save();
             $player->kick(TextFormat::RED . "You have been Death Banned for 30 minutes.");
+        } else {
+            if($player->hasPermission("deathban.20")){
+                $this->deathban->set($player->getName(), 1200);
+                $this->deathban->save();
+                $player->kick(TextFormat::RED . "You have been death banned for 20 minutes.");
+            } else {
+                if($player->hasPermission("deathban.10")){
+                    $this->deathban->set($player->getName(), 600);
+                $this->deathban->save();
+                $player->kick(TextFormat::RED . "You have been death banned for 10 minutes.");
+                } else {
+                    if($player->hasPermission("deathban.5")){
+                        $this->deathban->set($player->getName(), 300);
+                        $this->deathban->save();
+                        $player->kick(TextFormat::RED . "You have been death banned for 5 minutes.");
         }else {
+                        if(!$player->hasPermission("deathban.30") || !$player->hasPermission("deathban.20") || !$player->hasPermission("deathban.10") || !$player->hasPermission("deathban.5")){
             $this->deathban->set($player->getName(), 3600);
             $this->deathban->save();
             $player->kick(TextFormat::RED . "You have been Death Banned for 1 Hour.");
